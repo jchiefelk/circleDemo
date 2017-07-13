@@ -1,0 +1,162 @@
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+</head>
+
+
+
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+
+class Circle extends React.Component {
+	
+	constructor(){
+
+		super();
+		this.distance = 150;
+		this.state={
+			circle1: {
+				x: '0px',
+				y: '10px'
+			},
+			circle2: {
+				x: String(this.distance)+'px',
+				y: '10px'
+			}, 
+			circle3: {
+				x: String(2*this.distance)+'px',
+				y: '10px'
+			},
+			mouseX: 0,
+			mouseY: 0
+		};
+
+	}
+
+	updateCircle1(e){
+
+	
+
+		this.setState({
+			circle1: {
+				x: String(e.clientX)+"px",
+				y: String(e.clientY)+"px",
+			},
+
+			circle2: {
+				x: String(e.clientX+this.distance)+'px',
+				y: String(e.clientY)+"px"
+			},
+			circle3: {
+				x: String(e.clientX+2*this.distance)+'px',
+				y: String(e.clientY)+"px"
+			}
+
+		});
+	}
+
+	updateCircle2(e){
+		let circle2 = document.getElementById("circle2");
+	
+
+
+		this.setState({
+			circle1: {
+				x: String(e.clientX-this.distance)+"px",
+				y: String(e.clientY)+"px",
+			},
+
+			circle2: {
+				x: String(e.clientX)+"px",
+				y: String(e.clientY)+"px"
+			},
+
+			circle3: {
+				x: String(e.clientX+this.distance)+"px",
+				y: String(e.clientY)+"px"
+			},
+		});
+	}
+
+	updateCircle3(e){
+		let circle3 = document.getElementById("circle3");
+		// e.preventDefault();
+
+		this.setState({
+			
+			circle1: {
+				x: String(e.clientX-2*this.distance)+"px",
+				y: String(e.clientY)+"px",
+			},
+
+			circle2: {
+				x: String(e.clientX-this.distance)+"px",
+				y: String(e.clientY)+"px"
+			},
+
+			circle3: {
+				x: String(e.clientX)+"px",
+				y: String(e.clientY)+"px"
+			}
+		});
+	}
+	componentDidUpdate(){
+		console.log(this.state);
+	}
+	renderCircles(){
+		return(
+		<div style={{display: 'flex', flexDirection: 'column', width: window.innerWidth, height: window.innerHeight}} >
+
+			<div 
+			draggable={"true"}
+			style={{width: '200px', height: '200px', borderRadius: '100px', backgroundColor: 'red', position: 'absolute', cursor: 'pointer', left: this.state.circle1.x, top: this.state.circle1.y}} 
+			id="circle1" onDrag={(e) => this.updateCircle1(e)} 
+			onContextMenu={(e)=> {
+				console.log('right click')
+				e.preventDefault();
+			}}
+
+			/>
+				
+			<div 
+			draggable={"true"}
+			style={{width: '200px', height: '200px', borderRadius: '100px', backgroundColor: 'blue', position: 'absolute', cursor: 'pointer', left: this.state.circle2.x, top: this.state.circle2.y}} 
+			id="circle2" onDrag={(e) => this.updateCircle2(e)}
+			onContextMenu={(e)=> {
+				console.log('right click')
+				e.preventDefault();
+			}}/>
+
+				
+			<div
+			draggable={"true"} 
+			style={{width: '200px', height: '200px', borderRadius: '100px', backgroundColor: 'black', position: 'absolute', cursor: 'pointer', left: this.state.circle3.x, top: this.state.circle3.y}} 
+			id="circle3" 
+			onDrag={(e) => this.updateCircle3(e)} 
+			onContextMenu={(e)=> {
+
+				console.log('right click')
+				e.preventDefault();
+			}}/>
+
+		</div>
+		);
+	}
+
+	render(){
+		return(this.renderCircles());
+	}
+};
+
+ReactDOM.render(
+    <Circle/>,
+    document.getElementById('root')
+);
+</script>
+</Greeting>
+</body>
